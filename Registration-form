@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+void main() {
+  runApp(const MyApp());
+}
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'User Registration',
+      debugShowCheckedModeBanner: false,
+      home: const RegistrationPage(),
+    );
+  }
+}
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+class _RegistrationPageState extends State<RegistrationPage> {
+  // Controllers to capture user input
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // Function to handle registration button click
+  void _registerUser() {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Welcome, $name! Registration Successful."),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please fill in all fields."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Registration Form"),
+        centerTitle: true, 
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Full Name Field
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: "Full Name",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+            // Email Address Field
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                labelText: "Email Address",
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 15),
+            // Password Field
+            TextField(
+              controller: _passwordController,
+              obscureText: true, // hides password
+              decoration: const InputDecoration(
+                labelText: "Password",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 25),
+            // Register Button
+            ElevatedButton(
+  onPressed: _registerUser,
+  style: ElevatedButton.styleFrom(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // smaller padding
+    minimumSize: const Size(80, 40), // width, height
+    textStyle: const TextStyle(fontSize: 16), // slightly smaller text
+  ),
+  child: const Text("Register"),
+),
+          ],
+        ),
+      ),
+    );
+  }
+}
